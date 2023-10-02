@@ -1,6 +1,8 @@
-import json
+from main import GetUsersList
 
-with open("secret/config.json") as f:
-    data = json.load(f)
 
-print(data["follow_users"])
+user_name = input("Enter Your Username:")
+target_user = input("Enter Target Username:")
+
+GetUsersList(user_name, True)
+GetUsersList(target_user, False)

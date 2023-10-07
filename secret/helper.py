@@ -35,6 +35,7 @@ class JsonFileReader:
             with open(self.file_path) as f:
                 return json.load(f)
         except FileNotFoundError:
+            return None
             raise FileNotFoundError(f"JSON file '{self.file_path}' not found.")
         except json.JSONDecodeError as e:
             raise ValueError(f"Error decoding JSON file '{self.file_path}': {e}")
@@ -50,6 +51,7 @@ class JsonObjectReader:
             with open(self.file_path) as f:
                 self.file_data = json.load(f)
         except FileNotFoundError:
+            return None
             raise FileNotFoundError(f"JSON file '{self.file_path}' not found.")
         except json.JSONDecodeError as e:
             raise ValueError(f"Error decoding JSON file '{self.file_path}': {e}")

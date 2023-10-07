@@ -1,7 +1,7 @@
 from secret.helper import JsonObjectReader, JsonFileWriter, ApiHandler
 
 
-class GetUsersList:
+class GetFollowingList:
     def __init__(self, user_name, optional):
         self.user_name = user_name
         self.is_optional = optional
@@ -25,7 +25,7 @@ class GetUsersList:
                 return data[0].get("id")
 
     def setup_api_request(self):
-        self.json_data = self.json_file.fetch_json_by_name("fetch_followers_list")
+        self.json_data = self.json_file.fetch_json_by_name("fetch_following_list")
         self.json_data["body"]["variables"]["username"] = self.user_name
         self.json_data["body"]["variables"]["id"] = self.json_data["body"]["variables"][
             "paging"
@@ -37,28 +37,32 @@ class GetUsersList:
         response_status, response_data = self.api_handler.json_call_handler(
             self.json_data["body"]
         )
+
         if response_status == 200 and response_data:
-            first_user = response_data["data"]["userResult"]["followersUserConnection"][
-                "users"
-            ][0]
-            if self.is_optional:
-                self.all_user_data.append(first_user["id"])
-            else:
-                self.all_user_data.append(first_user)
-            return first_user["id"]
+            initial_users = response_data["data"]["userResult"][
+                "followingUserConnection"
+            ]["users"]
+            for user in initial_users:
+                self.all_user_data.append(user["id"])
+
+            return response_data["data"]["userResult"]["followingUserConnection"][
+                "pagingInfo"
+            ]["next"]["from"]
 
     def fetch_data(self):
         from_user_id = self.initial_data()
-
         while from_user_id:
             print("Loading")
             self.json_data["body"]["variables"]["paging"]["from"] = from_user_id
             response_status, response_data = self.api_handler.json_call_handler(
                 self.json_data["body"]
             )
+            if response_data is None:
+                print("Error: API response is None")
+                break
             if response_status == 200 and response_data:
                 new_result = response_data
-                user_data = new_result["data"]["userResult"]["followersUserConnection"][
+                user_data = new_result["data"]["userResult"]["followingUserConnection"][
                     "users"
                 ]
                 if self.is_optional:
@@ -66,7 +70,14 @@ class GetUsersList:
                     self.all_user_data.extend(user_ids)
                 else:
                     self.all_user_data.extend(user_data)
-                from_user_id = user_data[-1]["id"] if user_data else None
+                paging_info = response_data["data"]["userResult"][
+                    "followingUserConnection"
+                ]["pagingInfo"]
+                next_data = paging_info.get("next")
+                if next_data:
+                    from_user_id = next_data.get("from")
+                else:
+                    from_user_id = None
 
         if self.all_user_data:
             self.json_write_file.write_file(self.all_user_data)

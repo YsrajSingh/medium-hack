@@ -15,7 +15,7 @@ The Medium Hack Application is a Python script that allows users to fetch and fo
 
 ## Features
 
--   Fetch and display the followers and following lists for specified usernames on Medium.
+-   Fetch and save the followers and following lists for specified usernames on Medium.
 -   Follow users based on the fetched data.
 -   Option to use a previous authentication token for convenience.
 -   Easy-to-use command-line interface.
@@ -55,12 +55,12 @@ To use The Medium Hack Application, follow these steps:
     python app.py
     ```
 1. Follow the prompts to enter your authentication details and preferences.
-1. The application will fetch and display the followers and following lists for the specified usernames.
+1. The application will fetch and save the followers and following lists for the specified usernames.
 1. You will have the option to follow users based on the fetched data
 
 ## Configuration
 
--   The configuration for The Medium Hack Application is defined in the secret/constants.py file. You can modify this file to change application settings, such as URLs and error messages.
+-   The configuration for The Medium Hack Application is defined in the secret/json/config.json and secret/constants.py file. You can modify this file to change application settings, such as URLs, API's and error messages.
 
 ## Contributing
 

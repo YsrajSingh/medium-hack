@@ -13,6 +13,7 @@ Usage:
 from main import GetUsersList
 from secret.helper import JsonFileWriter, JsonFileReader
 import secret.constants as constants
+from follow import FollowUserList
 
 
 class TheMediumHack:
@@ -48,6 +49,7 @@ class TheMediumHack:
         # True for getting Following List
         self.get_followers_list(self.target_user, False)
         # False for getting Following List
+        self.follow_users_result = FollowUserList(self.unique_header)
 
     def previous_token(self) -> JsonFileReader:
         """

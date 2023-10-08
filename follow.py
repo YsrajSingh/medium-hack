@@ -54,12 +54,10 @@ class FollowUserList:
                     print(f"{constants.USER_FOLLOWED_WITH_ID}: {user_id}")
                 else:
                     print(
-                        f"{constants.ERROR_FAILED_WITH_STATUS_CODE} : {response_status} for {user_id} : {user.name}"
+                        f"{constants.ERROR_FAILED_WITH_STATUS_CODE} : {response_status} for {user_id}"
                     )
             else:
-                print(
-                    f"{user.name} {constants.ALREADY_FOLLOWED_YOU}, {constants.ID}: {user_id}"
-                )
+                print(f"{constants.ALREADY_FOLLOWED_YOU}, {constants.ID}: {user_id}")
 
     def __str__(self) -> str:
         """

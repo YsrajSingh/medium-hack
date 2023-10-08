@@ -1,9 +1,29 @@
+"""This module provides various utility classes and functions to fetch data (in list) of followers of target user."""
 from secret.helper import JsonObjectReader, JsonFileWriter, ApiHandler
 import secret.constants as constants
 
 
 class GetUsersList:
-    def __init__(self, user_name, optional):
+    """
+    A class for fetching and storing user data based on username and user type.
+
+    Attributes:
+        user_name (str): The username for which user data is to be fetched.
+        is_optional (bool): Indicates whether the data is optional or not.
+        all_user_data (list): A list to store user data.
+        json_file (JsonObjectReader): An instance of JsonObjectReader for reading JSON data.
+        json_write_file (JsonFileWriter): An instance of JsonFileWriter for writing JSON data.
+        response (str): A response message indicating the status of data fetching.
+    """
+
+    def __init__(self, user_name: str, optional: bool):
+        """
+        Initialize a GetUsersList instance.
+
+        Args:
+            user_name (str): The username for which user data is to be fetched.
+            optional (bool): Indicates whether the data is optional or not.
+        """
         self.user_name = user_name
         self.is_optional = optional
         self.all_user_data = []
@@ -13,10 +33,25 @@ class GetUsersList:
         )
         self.response = self.fetch_data()
 
-    def __str__(self):
+    def __str__(self) -> str:
+        """
+        Return a string representation of the GetUsersList instance.
+
+        Returns:
+            str: A string containing the response message.
+        """
         return str(self.response)
 
-    def optional(self, data):
+    def optional(self, data: dict) -> str:
+        """
+        Get the value of the 'ID' field from the data dictionary if it exists.
+
+        Args:
+            data (dict): The data dictionary.
+
+        Returns:
+            str: The value of 'ID' if it exists, or an empty string.
+        """
         if self.is_optional:
             if isinstance(data, dict):
                 return data.get(constants.ID)
@@ -24,6 +59,7 @@ class GetUsersList:
                 return data[0].get(constants.ID)
 
     def setup_api_request(self):
+        """Set up the API request configuration based on user type (optional or not)."""
         self.json_data = self.json_file.fetch_json_by_name(
             constants.FETCH_FOLLOWING_LIST
             if self.is_optional
@@ -41,7 +77,13 @@ class GetUsersList:
             self.json_data[constants.URL], self.json_data[constants.HEADER]
         )
 
-    def initial_data(self):
+    def initial_data(self) -> str:
+        """
+        Fetch initial user data and return the next 'from_user_id' (next user id or id's).
+
+        Returns:
+            str: The next 'from_user_id' (next user id or id's) or an empty string.
+        """
         self.setup_api_request()
         response_status, response_data = self.api_handler.json_call_handler(
             self.json_data[constants.BODY]
@@ -71,7 +113,13 @@ class GetUsersList:
                 else initial_users[constants.ID]
             )
 
-    def fetch_data(self):
+    def fetch_data(self) -> str:
+        """
+        Fetch user data and store it.
+
+        Returns:
+            str: A message indicating the status of data fetching.
+        """
         from_user_id = self.initial_data()
 
         while from_user_id:

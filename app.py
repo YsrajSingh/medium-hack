@@ -39,6 +39,10 @@ class TheMediumHack:
             use_previous_token = input(constants.INPUT_IS_PREVIOUS_TOKEN)
             if use_previous_token.lower() == "yes":
                 self.unique_header = previous_token.file_data
+            elif use_previous_token.lower() == "no":
+                self.unique_header = input(constants.INPUT_UNIQUE_TOKEN)
+                self.save_token()
+
         else:
             self.unique_header = input(constants.INPUT_UNIQUE_TOKEN)
             self.save_token()

@@ -64,8 +64,7 @@ To use The Medium Hack Application, follow these steps:
 
 ## Contributors
 
--   [Gurinder Batth]([https://www.google.com](https://github.com/Gurinder-Batth))
-
+- [Gurinder Batth](https://github.com/Gurinder-Batth)
 
 ## Contributing
 

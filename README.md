@@ -62,6 +62,11 @@ To use The Medium Hack Application, follow these steps:
 
 -   The configuration for The Medium Hack Application is defined in the secret/json/config.json and secret/constants.py file. You can modify this file to change application settings, such as URLs, API's and error messages.
 
+## Contributors
+
+-   [Gurinder Batth]([https://www.google.com](https://github.com/Gurinder-Batth))
+
+
 ## Contributing
 
 Contributions are welcome! If you'd like to contribute to this project, please follow these guidelines:
